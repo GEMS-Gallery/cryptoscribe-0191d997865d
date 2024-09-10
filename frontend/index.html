@@ -1,12 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Blog</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #635bff;
+            --text-color: #1a1f36;
+            --background-color: #f7fafc;
+            --card-background: #ffffff;
+            --border-color: #e3e8ee;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .stat {
+            background-color: var(--background-color);
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #697386;
+        }
+        .chart-container {
+            height: 300px;
+            margin-top: 16px;
+        }
+        .leads-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .leads-table th, .leads-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .leads-table th {
+            font-weight: 600;
+            color: #697386;
+            text-transform: uppercase;
+        }
+        .leads-table tr:last-child td {
+            border-bottom: none;
+        }
+        .lead-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .lead-name {
+            display: flex;
+            align-items: center;
+        }
+        .lead-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .lead-status-new {
+            background-color: #e3e8ee;
+            color: #697386;
+        }
+        .lead-status-sold {
+            background-color: #cbf4c9;
+            color: #0e6245;
+        }
+        .view-all {
+            text-align: right;
+            margin-top: 16px;
+        }
+        .view-all a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="card">
+            <h2>Key Metrics</h2>
+            <div class="stat-grid">
+                <div class="stat">
+                    <div class="stat-value">63</div>
+                    <div class="stat-label">New Leads</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">25</div>
+                    <div class="stat-label">Emails</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">49</div>
+                    <div class="stat-label">Proposals</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Appointments</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Lead by Countries</h2>
+            <div class="chart-container">
+                <canvas id="countryChart"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Email Sent</h2>
+            <div class="chart-container">
+                <canvas id="emailChart"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Leads</h2>
+            <table class="leads-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>Created Time</th>
+                        <th>Assignee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="lead-name">
+                            <img src="/api/placeholder/32/32" alt="Eileen Horton" class="lead-avatar" />
+                            Eileen Horton
+                        </td>
+                        <td><span class="lead-status lead-status-new">New</span></td>
+                        <td>eileen_h@hotmail.com</td>
+                        <td>11/06/2021 09:53</td>
+                        <td>Carrie Harris</td>
+                    </tr>
+                    <tr>
+                        <td class="lead-name">
+                            <img src="/api/placeholder/32/32" alt="Terrance Moreno" class="lead-avatar" />
+                            Terrance Moreno
+                        </td>
+                        <td><span class="lead-status lead-status-sold">Sold</span></td>
+                        <td>terrance_moreno@infotech.io</td>
+                        <td>23/09/2021 03:40</td>
+                        <td>Toni Lane</td>
+                    </tr>
+                    <tr>
+                        <td class="lead-name">
+                            <img src="/api/placeholder/32/32" alt="Ron Vargas" class="lead-avatar" />
+                            Ron Vargas
+                        </td>
+                        <td><span class="lead-status lead-status-sold">Sold</span></td>
+                        <td>ronnie_vergas@infotech.io</td>
+                        <td>23/09/2021 03:40</td>
+                        <td>Joanne Mendoza</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="view-all">
+                <a href="#">View All Leads</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Country Chart
+        const countryCtx = document.getElementById('countryChart').getContext('2d');
+        new Chart(countryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['USA', 'Brazil', 'India', 'China', 'Algeria', 'Indonesia'],
+                datasets: [{
+                    data: [37.61, 16.79, 12.42, 9.85, 7.68, 5.11],
+                    backgroundColor: ['#635bff', '#32325d', '#3ecf8e', '#f6bc13', '#ed5f74', '#6772e5']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Email Chart
+        const emailCtx = document.getElementById('emailChart').getContext('2d');
+        new Chart(emailCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Opened', 'Not Opened'],
+                datasets: [{
+                    data: [73, 27],
+                    backgroundColor: ['#635bff', '#e3e8ee']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
 </html>
