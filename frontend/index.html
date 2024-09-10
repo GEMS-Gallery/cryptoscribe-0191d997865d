@@ -12,6 +12,7 @@
             --background-color: #f7fafc;
             --card-background: #ffffff;
             --border-color: #e3e8ee;
+            --hover-color: #f5f7fa;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -35,7 +36,7 @@
             box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
         }
         .card h2 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             margin-top: 0;
             margin-bottom: 16px;
@@ -72,7 +73,7 @@
         }
         .leads-table th, .leads-table td {
             text-align: left;
-            padding: 12px;
+            padding: 16px;
             border-bottom: 1px solid var(--border-color);
             font-size: 14px;
         }
@@ -80,25 +81,36 @@
             font-weight: 600;
             color: #697386;
             text-transform: uppercase;
+            font-size: 12px;
         }
         .leads-table tr:last-child td {
             border-bottom: none;
         }
+        .leads-table tr:nth-child(even) {
+            background-color: var(--background-color);
+        }
+        .leads-table tr:hover {
+            background-color: var(--hover-color);
+        }
         .lead-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 12px;
+            object-fit: cover;
         }
         .lead-name {
             display: flex;
             align-items: center;
+            font-weight: 500;
         }
         .lead-status {
-            padding: 4px 8px;
-            border-radius: 12px;
+            padding: 6px 10px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .lead-status-new {
             background-color: #e3e8ee;
@@ -110,13 +122,33 @@
         }
         .view-all {
             text-align: right;
-            margin-top: 16px;
+            margin-top: 20px;
         }
         .view-all a {
             color: var(--primary-color);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: var(--background-color);
+            transition: background-color 0.3s ease;
+        }
+        .view-all a:hover {
+            background-color: var(--hover-color);
+        }
+        @media (max-width: 768px) {
+            .leads-table {
+                font-size: 12px;
+            }
+            .leads-table th, .leads-table td {
+                padding: 12px 8px;
+            }
+            .lead-avatar {
+                width: 28px;
+                height: 28px;
+                margin-right: 8px;
+            }
         }
     </style>
 </head>
